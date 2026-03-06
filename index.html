@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PDF Merger & Page Sorter</title>
+  <title>PDF Merger, Sorter & Compressor</title>
 
   <!-- PDF.js for rendering previews -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -223,14 +223,197 @@
     .toast.show { transform: translateY(0); }
     .toast.success { border-color: var(--success); }
     .toast.error   { border-color: var(--danger); }
+
+    /* ── Tabs ─────────────────────────────────────────────────────── */
+    .tabs {
+      display: flex; gap: 0;
+      margin-bottom: 2rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .tab-btn {
+      padding: .85rem 1.5rem;
+      background: none; border: none;
+      color: var(--text-dim);
+      font-size: .95rem; font-weight: 600;
+      cursor: pointer; transition: all .2s;
+      position: relative;
+    }
+
+    .tab-btn::after {
+      content: ''; position: absolute;
+      bottom: -2px; left: 0; right: 0; height: 2px;
+      background: transparent; transition: background .2s;
+    }
+
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--accent); }
+    .tab-btn.active::after { background: var(--accent); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── Compress Section ─────────────────────────────────────────── */
+    .compress-container {
+      max-width: 600px; margin: 0 auto;
+    }
+
+    .compress-upload {
+      border: 2px dashed var(--border);
+      border-radius: var(--radius);
+      padding: 3rem 2rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all .3s;
+      background: var(--surface);
+      position: relative;
+    }
+
+    .compress-upload:hover {
+      border-color: var(--accent);
+      background: rgba(99,102,241,.06);
+    }
+
+    .compress-upload input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer;
+    }
+
+    .compress-upload svg { width: 48px; height: 48px; margin-bottom: 1rem; color: var(--accent); }
+    .compress-upload h2 { font-size: 1.15rem; margin-bottom: .5rem; }
+    .compress-upload p  { color: var(--text-dim); font-size: .875rem; }
+
+    .compress-settings {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+
+    .compress-settings h3 {
+      font-size: 1rem; margin-bottom: 1rem;
+    }
+
+    .file-info {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 1rem;
+      background: rgba(99,102,241,.06);
+      border-radius: 8px;
+      margin-bottom: 1.25rem;
+    }
+
+    .file-info .file-icon {
+      width: 40px; height: 40px;
+      background: var(--accent);
+      color: #fff; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 700; flex-shrink: 0;
+    }
+
+    .file-info .file-details {
+      flex: 1; min-width: 0;
+    }
+
+    .file-info .file-name {
+      font-weight: 600; font-size: .9rem;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+
+    .file-info .file-size {
+      font-size: .8rem; color: var(--text-dim);
+    }
+
+    .quality-control {
+      margin-bottom: 1.25rem;
+    }
+
+    .quality-control label {
+      display: flex; justify-content: space-between;
+      font-size: .875rem; margin-bottom: .5rem; color: var(--text-dim);
+    }
+
+    .quality-control label strong { color: var(--text); }
+
+    .quality-slider {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 6px;
+      background: var(--border); border-radius: 3px;
+      outline: none;
+    }
+
+    .quality-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none;
+      width: 18px; height: 18px;
+      background: var(--accent); border-radius: 50%;
+      cursor: pointer; transition: background .2s;
+    }
+
+    .quality-slider::-webkit-slider-thumb:hover { background: var(--accent-h); }
+
+    .quality-presets {
+      display: flex; gap: .5rem; margin-bottom: 1.25rem;
+    }
+
+    .preset-btn {
+      flex: 1; padding: .5rem; border-radius: 6px;
+      background: transparent; border: 1px solid var(--border);
+      color: var(--text-dim); font-size: .75rem; font-weight: 600;
+      cursor: pointer; transition: all .2s; text-align: center;
+    }
+
+    .preset-btn:hover { border-color: var(--accent); color: var(--text); }
+    .preset-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    .dpi-control {
+      margin-bottom: 1.25rem;
+    }
+
+    .dpi-control label {
+      display: flex; justify-content: space-between;
+      font-size: .875rem; margin-bottom: .5rem; color: var(--text-dim);
+    }
+
+    .dpi-control label strong { color: var(--text); }
+
+    .compress-actions {
+      display: flex; gap: .75rem; margin-top: 1rem;
+    }
+
+    .compress-actions .btn { flex: 1; justify-content: center; }
+
+    .compress-result {
+      background: var(--surface);
+      border: 1px solid var(--success);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+      text-align: center;
+    }
+
+    .compress-result h3 { color: var(--success); margin-bottom: .75rem; }
+
+    .size-comparison {
+      display: flex; align-items: center; justify-content: center;
+      gap: 1rem; margin-bottom: 1rem;
+      font-size: .9rem;
+    }
+
+    .size-comparison .arrow { color: var(--success); font-size: 1.2rem; }
+    .size-comparison .original { color: var(--text-dim); }
+    .size-comparison .compressed { color: var(--success); font-weight: 700; }
+    .size-comparison .savings {
+      background: rgba(34,197,94,.1); color: var(--success);
+      padding: .25rem .75rem; border-radius: 20px;
+      font-size: .8rem; font-weight: 600;
+    }
   </style>
 </head>
 <body>
 
 <!-- Header -->
 <header>
-  <h1>📄 PDF Merger <span>& Page Sorter</span></h1>
-  <div class="header-actions">
+  <h1>📄 PDF Tools <span>— Merge, Sort & Compress</span></h1>
+  <div class="header-actions" id="merge-header-actions">
     <button class="btn btn-outline" id="btn-add-more" style="display:none" onclick="document.getElementById('file-input-extra').click()">
       ＋ Add More PDFs
     </button>
@@ -245,6 +428,15 @@
 </header>
 
 <main>
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('merge')">📑 Merge & Sort</button>
+    <button class="tab-btn" onclick="switchTab('compress')">🗜️ Compress PDF</button>
+  </div>
+
+  <!-- ═══════ TAB: MERGE ═══════ -->
+  <div class="tab-panel active" id="tab-merge">
+
   <!-- Upload Area -->
   <div class="upload-zone" id="upload-zone">
     <input type="file" id="file-input" accept=".pdf" multiple />
@@ -277,6 +469,86 @@
 
   <!-- Pages Grid -->
   <div id="page-grid"></div>
+
+  </div><!-- /tab-merge -->
+
+  <!-- ═══════ TAB: COMPRESS ═══════ -->
+  <div class="tab-panel" id="tab-compress">
+    <div class="compress-container">
+
+      <!-- Compress Upload -->
+      <div class="compress-upload" id="compress-upload-zone">
+        <input type="file" id="compress-file-input" accept=".pdf" />
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125
+               1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0
+               12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125
+               1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0
+               1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z"/>
+        </svg>
+        <h2>Drop a PDF to compress</h2>
+        <p>Reduce file size by re-rendering pages at lower quality &nbsp;·&nbsp; 100 % client-side</p>
+      </div>
+
+      <!-- Compress Settings (hidden until file loaded) -->
+      <div class="compress-settings" id="compress-settings" style="display:none">
+        <h3>Compression Settings</h3>
+
+        <div class="file-info">
+          <div class="file-icon">PDF</div>
+          <div class="file-details">
+            <div class="file-name" id="compress-file-name">document.pdf</div>
+            <div class="file-size" id="compress-file-size">0 KB · 0 pages</div>
+          </div>
+        </div>
+
+        <div class="quality-presets">
+          <button class="preset-btn" onclick="setPreset('low')">Low<br><small>Max compression</small></button>
+          <button class="preset-btn active" onclick="setPreset('medium')">Medium<br><small>Balanced</small></button>
+          <button class="preset-btn" onclick="setPreset('high')">High<br><small>Better quality</small></button>
+        </div>
+
+        <div class="quality-control">
+          <label>Image Quality <strong id="quality-val">60%</strong></label>
+          <input type="range" class="quality-slider" id="quality-slider" min="10" max="95" value="60" oninput="updateQualityLabel()" />
+        </div>
+
+        <div class="dpi-control">
+          <label>Resolution (DPI) <strong id="dpi-val">150</strong></label>
+          <input type="range" class="quality-slider" id="dpi-slider" min="72" max="300" value="150" step="1" oninput="updateDPILabel()" />
+        </div>
+
+        <div class="compress-actions">
+          <button class="btn btn-outline" onclick="resetCompress()">✕ Cancel</button>
+          <button class="btn btn-primary" id="btn-compress" onclick="compressPDF()">🗜️ Compress &amp; Download</button>
+        </div>
+      </div>
+
+      <!-- Compress Result (hidden until done) -->
+      <div class="compress-result" id="compress-result" style="display:none">
+        <h3>✓ Compression Complete</h3>
+        <div class="size-comparison">
+          <span class="original" id="original-size">0 KB</span>
+          <span class="arrow">→</span>
+          <span class="compressed" id="compressed-size">0 KB</span>
+          <span class="savings" id="savings-pct">-0%</span>
+        </div>
+        <div style="display:flex;gap:.75rem;justify-content:center">
+          <button class="btn btn-primary" id="btn-download-compressed" onclick="downloadCompressed()">⬇ Download</button>
+          <button class="btn btn-outline" onclick="resetCompress()">Compress Another</button>
+        </div>
+      </div>
+
+      <!-- Compress Spinner -->
+      <div class="spinner" id="compress-spinner">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+        <span id="compress-spinner-text">Compressing…</span>
+      </div>
+
+    </div>
+  </div><!-- /tab-compress -->
+
 </main>
 
 <!-- Toast -->
@@ -505,6 +777,180 @@
     grid.innerHTML = "";
     updateUI();
     uploadZone.style.display = "block";
+  }
+
+  // ── Tab Switching ──────────────────────────────────────────────────
+  function switchTab(tab) {
+    document.querySelectorAll('.tab-btn').forEach((b, i) => {
+      b.classList.toggle('active', (tab === 'merge' && i === 0) || (tab === 'compress' && i === 1));
+    });
+    document.getElementById('tab-merge').classList.toggle('active', tab === 'merge');
+    document.getElementById('tab-compress').classList.toggle('active', tab === 'compress');
+    document.getElementById('merge-header-actions').style.display = tab === 'merge' ? 'flex' : 'none';
+  }
+
+  // ══════════════════════════════════════════════════════════════════
+  //  COMPRESS PDF
+  // ══════════════════════════════════════════════════════════════════
+
+  let compressFile = null;       // { name, bytes (Uint8Array), pageCount, originalSize }
+  let compressedBytes = null;    // Uint8Array of the result
+
+  document.getElementById('compress-file-input').addEventListener('change', e => {
+    const f = e.target.files[0];
+    if (f && f.type === 'application/pdf') loadCompressFile(f);
+  });
+
+  async function loadCompressFile(file) {
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    const pdf = await pdfjsLib.getDocument({ data: bytes.slice() }).promise;
+
+    compressFile = {
+      name: file.name,
+      bytes,
+      pageCount: pdf.numPages,
+      originalSize: bytes.byteLength,
+    };
+
+    document.getElementById('compress-file-name').textContent = file.name;
+    document.getElementById('compress-file-size').textContent =
+      `${formatBytes(bytes.byteLength)} · ${pdf.numPages} page(s)`;
+
+    document.getElementById('compress-upload-zone').style.display = 'none';
+    document.getElementById('compress-settings').style.display = 'block';
+    document.getElementById('compress-result').style.display = 'none';
+  }
+
+  function updateQualityLabel() {
+    document.getElementById('quality-val').textContent =
+      document.getElementById('quality-slider').value + '%';
+    clearActivePreset();
+  }
+
+  function updateDPILabel() {
+    document.getElementById('dpi-val').textContent =
+      document.getElementById('dpi-slider').value;
+    clearActivePreset();
+  }
+
+  function clearActivePreset() {
+    document.querySelectorAll('.preset-btn').forEach(b => b.classList.remove('active'));
+  }
+
+  function setPreset(level) {
+    const q = document.getElementById('quality-slider');
+    const d = document.getElementById('dpi-slider');
+    if (level === 'low')    { q.value = 30; d.value = 96;  }
+    if (level === 'medium') { q.value = 60; d.value = 150; }
+    if (level === 'high')   { q.value = 85; d.value = 250; }
+    updateQualityLabel();
+    updateDPILabel();
+    document.querySelectorAll('.preset-btn').forEach(b =>
+      b.classList.toggle('active', b.textContent.toLowerCase().startsWith(level)));
+  }
+
+  async function compressPDF() {
+    if (!compressFile) return;
+
+    const quality = parseInt(document.getElementById('quality-slider').value) / 100;
+    const dpi     = parseInt(document.getElementById('dpi-slider').value);
+    const btn     = document.getElementById('btn-compress');
+    const spin    = document.getElementById('compress-spinner');
+    const spinTxt = document.getElementById('compress-spinner-text');
+
+    btn.disabled = true;
+    btn.textContent = '⏳ Compressing…';
+    spin.classList.add('show');
+
+    try {
+      const { PDFDocument } = PDFLib;
+      const srcPdf = await pdfjsLib.getDocument({ data: compressFile.bytes.slice() }).promise;
+      const newDoc = await PDFDocument.create();
+
+      for (let i = 1; i <= srcPdf.numPages; i++) {
+        spinTxt.textContent = `Compressing page ${i} / ${srcPdf.numPages}…`;
+
+        const page = await srcPdf.getPage(i);
+        const vp   = page.getViewport({ scale: 1 });
+
+        // Scale to target DPI (PDF default is 72 DPI)
+        const scale  = dpi / 72;
+        const canvas = document.createElement('canvas');
+        canvas.width  = Math.floor(vp.width  * scale);
+        canvas.height = Math.floor(vp.height * scale);
+
+        const ctx = canvas.getContext('2d');
+        await page.render({
+          canvasContext: ctx,
+          viewport: page.getViewport({ scale }),
+        }).promise;
+
+        // Convert canvas to JPEG at the chosen quality
+        const jpegDataUrl = canvas.toDataURL('image/jpeg', quality);
+        const jpegBytes   = Uint8Array.from(atob(jpegDataUrl.split(',')[1]), c => c.charCodeAt(0));
+        const img         = await newDoc.embedJpg(jpegBytes);
+
+        // Add page with same dimensions as original (in PDF points)
+        const newPage = newDoc.addPage([vp.width, vp.height]);
+        newPage.drawImage(img, {
+          x: 0, y: 0,
+          width:  vp.width,
+          height: vp.height,
+        });
+      }
+
+      compressedBytes = await newDoc.save();
+
+      // Show result
+      const saved = compressFile.originalSize - compressedBytes.byteLength;
+      const pct   = ((saved / compressFile.originalSize) * 100).toFixed(1);
+
+      document.getElementById('original-size').textContent   = formatBytes(compressFile.originalSize);
+      document.getElementById('compressed-size').textContent = formatBytes(compressedBytes.byteLength);
+      document.getElementById('savings-pct').textContent     = saved > 0 ? `-${pct}%` : `+${Math.abs(pct)}%`;
+      document.getElementById('savings-pct').style.color     = saved > 0 ? 'var(--success)' : 'var(--danger)';
+
+      document.getElementById('compress-settings').style.display = 'none';
+      document.getElementById('compress-result').style.display   = 'block';
+
+      toast('PDF compressed successfully! 🎉', 'success');
+    } catch (err) {
+      console.error(err);
+      toast('Compression failed: ' + err.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '🗜️ Compress &amp; Download';
+      spin.classList.remove('show');
+    }
+  }
+
+  function downloadCompressed() {
+    if (!compressedBytes) return;
+    const blob = new Blob([compressedBytes], { type: 'application/pdf' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = compressFile.name.replace(/\.pdf$/i, '') + '_compressed.pdf';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function resetCompress() {
+    compressFile = null;
+    compressedBytes = null;
+    document.getElementById('compress-upload-zone').style.display = 'block';
+    document.getElementById('compress-settings').style.display    = 'none';
+    document.getElementById('compress-result').style.display      = 'none';
+    document.getElementById('compress-file-input').value          = '';
+    setPreset('medium');
+  }
+
+  function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / 1048576).toFixed(2) + ' MB';
   }
 
   // ── Toast ─────────────────────────────────────────────────────────
